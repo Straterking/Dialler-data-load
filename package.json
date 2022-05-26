@@ -1,0 +1,23 @@
+{
+  "name": "dialler-data-loader",
+  "version": "1.0.0",
+  "description": "The dialer-data-loader loads data selected from the database and archived to the s3 bucket to the dialer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeWorkshop-io/dialler-data-loader.git"
+  },
+  "author": "Mk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CodeWorkshop-io/dialler-data-loader/issues"
+  },
+  "homepage": "https://github.com/CodeWorkshop-io/dialler-data-loader#readme",
+  "devDependencies": {
+    "serverless-python-requirements": "^5.4.0",
+    "serverless-sentry": "^2.4.0"
+  }
+}

@@ -1,0 +1,57 @@
+service: api-dataload
+frameworkVersion: "3"
+
+package:
+  include:
+    - requirements.txt
+  exclude:
+    - .gitignore
+    - node_modules/**
+    - dialer-data-loader/**
+
+plugins:
+  - serverless-python-requirements
+  # - serverless-sentry
+custom:
+  stage: ${opt:stage, 'dev'}
+  ssm:
+    dev: dev
+    qa: dev
+  ssm_env: ${self:custom.ssm.${self:custom.stage}, self:custom.stage}
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: eu-west-1
+  stage: ${self:custom.stage}
+  memorySize: 1024
+  timeout: 900
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "ssm:Describe*"
+        - "ssm:Get*"
+        - "ssm:List*"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+        - "s3:ListBucket"
+      Resource:
+        - ${ssm:/${self:provider.stage}/data-pipeline/bucket/csv/arn}
+        - ${ssm:/${self:provider.stage}/data-pipeline/bucket/csv/arn}/*
+
+functions:
+  load_listfile:
+    handler: apiDataload.load_listfile
+    vpc:
+      securityGroupIds:
+        - ${ssm:/${self:custom.ssm_env}/api/securitygroups/1}
+      subnetIds:
+        - ${ssm:/${self:custom.ssm_env}/api/subnet/1}
+        - ${ssm:/${self:custom.ssm_env}/api/subnet/2}
+        - ${ssm:/${self:custom.ssm_env}/api/subnet/3}
+    layers:
+      - arn:aws:lambda:region:aws_account:layer:layer_name:version
