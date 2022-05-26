@@ -1,0 +1,37 @@
+name: Pull Request
+
+on:
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches-ignore:
+      - "dependabot/**"
+
+jobs:
+  eslint:
+    name: Run Linters, Tests and Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1
+        with:
+          always-auth: true
+          node-version: "14.x"
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x" # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Install dependencies
+        run: |
+          pip3 install flake8 pytest
+          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
