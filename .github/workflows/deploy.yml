@@ -1,0 +1,107 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy to AWS
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+#on:
+#  push:
+#    branches: [main, develop, staging]
+
+#env:
+#  AWS_ACCOUNT: account
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+#  ci:
+#    name: Build, Test, Lint
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#      - uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v1
+#        with:
+#          always-auth: true
+#          node-version: "14.x"
+#      - uses: actions/setup-python@v2
+#        with:
+#          python-version: "3.x" # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: "x64" # optional x64 or x86. Defaults to x64 if not specified
+#      - name: Install npm dependencies
+#        run: npm ci
+#      - name: Install dependencies
+#        run: |
+#          pip3 install flake8 pytest
+#          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+
+#      - name: Lint with flake8
+#        run: |
+          # stop the build if there are Python syntax errors or undefined names
+#          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+#          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+#      - name: set-aws-credentials
+#        run: |
+#          echo "AWS_ACCESS_KEY_ID_SECRET_NAME=AWS_ACCESS_KEY_ID_${{ #env.AWS_ACCOUNT }}" >> $GITHUB_ENV
+#          echo #"AWS_SECRET_ACCESS_KEY_SECRET_NAME=AWS_SECRET_ACCESS_KEY_${{ #env.AWS_ACCOUNT }}" >> $GITHUB_ENV
+#          echo "AWS_REGION_NAME=AWS_REGION_${{ env.AWS_ACCOUNT }}" #>> $GITHUB_ENV
+
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets#[env.AWS_ACCESS_KEY_ID_SECRET_NAME] }}
+#          aws-secret-access-key: ${{ secrets#[env.AWS_SECRET_ACCESS_KEY_SECRET_NAME] }}
+#          aws-region: ${{ secrets[env.AWS_REGION_NAME] }}
+
+#      - name: Set env to Development
+#        if: endsWith(github.ref, '/develop')
+#        run: |
+#          echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+
+#      - name: Set env to Production
+#        if: endsWith(github.ref, '/main')
+#        run: |
+#          echo "ENVIRONMENT=prod" >> $GITHUB_ENV#
+
+#      - name: Set env to Staging
+#        if: endsWith(github.ref, '/staging')
+#        run: |
+#          echo "ENVIRONMENT=qa" >> $GITHUB_ENV
+
+#      - name: Echo Environment
+#        run: echo $ENVIRONMENT
+
+#      - name: Install Global
+#        run: |
+#          npm i -g serverless
+#
+#      - name: Serverless Deploy
+#        run: serverless deploy --stage $ENVIRONMENT
+
+      # - name: Slack Notification - Success
+      #   if: ${{ success() }}
+      #   uses: rtCamp/action-slack-notify@master
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.Acc_SLACK_WEBHOOK }}
+      #     SLACK_USERNAME: Deploy Bot
+      #     SLACK_COLOR: "#32bd6a"
+      #     SLACK_MESSAGE: "Dialler data load deployed successfully :rocket:"
+      #     SLACK_TITLE: Dialler data load Deployment to ${{ env.ENVIRONMENT }} Successful
+
+      # - name: Slack Notification - Failure
+      #   if: ${{ failure() }}
+      #   uses: rtCamp/action-slack-notify@master
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.Acc_SLACK_WEBHOOK }}
+      #     SLACK_USERNAME: Deploy Bot
+      #     SLACK_COLOR: "#bd4232"
+      #     SLACK_MESSAGE: "Dialler data load deployment Failed :cry:"
+      #     SLACK_TITLE: Dialler data load Deployment to ${{ env.ENVIRONMENT }} Failed
